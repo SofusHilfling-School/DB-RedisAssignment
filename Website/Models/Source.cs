@@ -12,7 +12,4 @@ public class Source
 
     [JsonPropertyName("name")]
     public string Name { get; set; }
-
-    [JsonPropertyName("substitutions")]
-    public List<object> Substitutions { get; set; }
 }

@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.DependencyInjection;
+using StackExchange.Redis;
 using Website.Data;
+using Website.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +11,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddHttpClient();
-builder.Services.AddSingleton<DataFetcher>();
+builder.Services.AddScoped<DataFetcher>();
+builder.Services.AddScoped<RedisCacheService>();
+
+CustomSettings settings = builder.Configuration.GetSection("CustomSettings").Get<CustomSettings>();
+builder.Services.AddSingleton(ConnectionMultiplexer.Connect(settings.RedisEndPoint));
 
 var app = builder.Build();
 
