@@ -1,4 +1,7 @@
 ﻿@page "/"
+@using Website.Models
+@using Website.Data
+@inject DataFetcher dataFetcher
 
 <PageTitle>Index</PageTitle>
 
@@ -6,4 +9,13 @@
 
 Welcome to your new app.
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+@code {
+    private Root<AverageWageDatum> _averageWages;
+    private Root<TotalNoninstructionalEmployeesDatum> _totalNoninstructionalEmployees;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _averageWages = await dataFetcher.GetAverageWages();
+        _totalNoninstructionalEmployees = await dataFetcher.GetTotalNoninstructionalEmployees();
+    }
+}
