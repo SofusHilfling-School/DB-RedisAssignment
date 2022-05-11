@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  website:
+    build: ./Website
+    ports:
+      - 8080:80
+  redis:
+    image: redis
+    ports:
+      - 6376:6379
+  redis-insight:
+    image: redislabs/redisinsight
+    ports:
+      - 8001:8001
