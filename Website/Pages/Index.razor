@@ -5,17 +5,29 @@
 
 <PageTitle>Index</PageTitle>
 
+<div class="form-check form-switch">
+    <input class="form-check-input" type="checkbox" id="useCacheId" @bind="UseCache" />
+    <label class="form-check-label" for="useCacheId" >Use Redis cache</label>
+</div>
+
 <h1>Hello, world!</h1>
+
+@if(UseCache)
+{
+    <span class="badge bg-success">Use cache is enabled</span>
+}
 
 Welcome to your new app.
 
 @code {
+    public static bool UseCache = false;
+
     private Root<AverageWageDatum> _averageWages;
     private Root<TotalNoninstructionalEmployeesDatum> _totalNoninstructionalEmployees;
 
     protected override async Task OnInitializedAsync()
     {
-        _averageWages = await dataFetcher.GetAverageWages();
-        _totalNoninstructionalEmployees = await dataFetcher.GetTotalNoninstructionalEmployees();
+        _averageWages = await dataFetcher.GetAverageWages(UseCache);
+        _totalNoninstructionalEmployees = await dataFetcher.GetTotalNoninstructionalEmployees(UseCache);
     }
 }
