@@ -8,8 +8,8 @@ Source Id is either `AverageWage` or `TotalNoninstructionalEmployees` depending 
 ## Source
 ```
 source:<id>
-    measures = measure:<name>
-    annotations = annotations:<name>
+    measures = measure:<id>
+    annotations = annotations:<id>
     name
 ```
 
@@ -28,7 +28,7 @@ annotations:<SourceName>
 
 ## Measure set
 ```
-measures:<SourceName>
+measures:<id>
 ```
 
 ## Measure data for "Total Noninstructional Employees"

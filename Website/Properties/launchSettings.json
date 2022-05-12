@@ -1,12 +1,4 @@
 {
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:4138",
-      "sslPort": 44397
-    }
-  },
   "profiles": {
     "Website": {
       "commandName": "Project",
@@ -16,13 +8,6 @@
       },
       "applicationUrl": "https://localhost:7133;http://localhost:5118",
       "dotnetRunMessages": true
-    },
-    "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
     },
     "Docker": {
       "commandName": "Docker",

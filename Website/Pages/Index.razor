@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using System.Diagnostics
 @using Website.Models
 @using Website.Data
 @inject DataFetcher dataFetcher
@@ -10,24 +11,60 @@
     <label class="form-check-label" for="useCacheId" >Use Redis cache</label>
 </div>
 
-<h1>Hello, world!</h1>
-
 @if(UseCache)
 {
     <span class="badge bg-success">Use cache is enabled</span>
 }
 
-Welcome to your new app.
+<br/>
+
+<p>
+    Data was fetched in <span class="badge bg-warning">@_executionTime.TotalMilliseconds millisecounds</span>
+</p>
+
+<button class="btn btn-secondary" @onclick="FetchData" disabled="@_isButtonDisabled">
+    @if(_totalNoninstructionalEmployees is null)
+    {
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    }
+    Refresh data
+</button>
+<h3>Total Noninscructional Employees</h3>
+@if(_totalNoninstructionalEmployees is not null)
+{
+    <ul>
+    @foreach(var item in _totalNoninstructionalEmployees.Data) {
+        <li>@item.TotalNoninstructionalEmployees</li>
+    }
+    </ul>
+}
 
 @code {
     public static bool UseCache;
 
-    private Root<AverageWageDatum> _averageWages;
-    private Root<TotalNoninstructionalEmployeesDatum> _totalNoninstructionalEmployees;
+    private Root<AverageWageDatum>? _averageWages;
+    private Root<TotalNoninstructionalEmployeesDatum>? _totalNoninstructionalEmployees;
+    private TimeSpan _executionTime;
+    private bool _isButtonDisabled;
 
     protected override async Task OnInitializedAsync()
     {
-        _averageWages = await dataFetcher.GetAverageWages(UseCache);
+        await FetchData();
+    }
+
+    async Task FetchData()
+    {
+        _totalNoninstructionalEmployees = null;
+        _averageWages = null;
+        _isButtonDisabled = true;
+
+        Stopwatch stopwatch = Stopwatch.StartNew();
         _totalNoninstructionalEmployees = await dataFetcher.GetTotalNoninstructionalEmployees(UseCache);
+
+        _averageWages = await dataFetcher.GetAverageWages(UseCache);
+        stopwatch.Stop();
+        _executionTime = stopwatch.Elapsed;
+
+        _isButtonDisabled = false;
     }
 }

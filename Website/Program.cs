@@ -1,6 +1,3 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
 using Website.Data;
 using Website.Models;
