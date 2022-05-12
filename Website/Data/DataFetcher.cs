@@ -16,10 +16,10 @@ public class DataFetcher
     public async Task<Root<AverageWageDatum>> GetAverageWages(bool useCache)
     {
         string url = "https://datausa.io/api/data?measures=Average%20Wage,Average%20Wage%20Appx%20MOE&drilldowns=Detailed%20Occupation";
-        Root<AverageWageDatum> root;
+        Root<AverageWageDatum>? root = null;
         if (useCache)
             root = await _cacheService.GetData<AverageWageDatum>(url);
-        else
+        if(!useCache || root is null)
         {
             root = await _httpClient.GetFromJsonAsync<Root<AverageWageDatum>>(url);
             _ = _cacheService.StoreData(url, root);
@@ -30,10 +30,10 @@ public class DataFetcher
     public async Task<Root<TotalNoninstructionalEmployeesDatum>> GetTotalNoninstructionalEmployees(bool useCache)
     {
         string url = "https://datausa.io/api/data?University=142832&measures=Total%20Noninstructional%20Employees&drilldowns=IPEDS%20Occupation&parents=true";
-        Root<TotalNoninstructionalEmployeesDatum> root;
+        Root<TotalNoninstructionalEmployeesDatum>? root = null;
         if (useCache)
             root = await _cacheService.GetData<TotalNoninstructionalEmployeesDatum>(url);
-        else
+        if(!useCache || root is null)
         {
             root = await _httpClient.GetFromJsonAsync<Root<TotalNoninstructionalEmployeesDatum>>(url);
             _ = _cacheService.StoreData(url, root);

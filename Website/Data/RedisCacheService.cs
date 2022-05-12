@@ -18,13 +18,14 @@ public class RedisCacheService
     {
         IDatabase db = _connection.GetDatabase();
         string json = JsonSerializer.Serialize(data);
-        await db.StringSetAsync(key, json);
+        await db.StringSetAsync(key, json, TimeSpan.FromSeconds(60));
     }
 
-    public async Task<Root<T>> GetData<T>(string key)
+    public async Task<Root<T>?> GetData<T>(string key)
     {
         IDatabase db = _connection.GetDatabase();
-        string json = await db.StringGetAsync(key);
-        return JsonSerializer.Deserialize<Root<T>>(json);
+        string? json = await db.StringGetAsync(key);
+        
+        return json is null ? null : JsonSerializer.Deserialize<Root<T>>(json);
     }
 }
