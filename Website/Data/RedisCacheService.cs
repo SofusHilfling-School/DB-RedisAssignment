@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using StackExchange.Redis;
+using System.Text.Json;
 using Website.Models;
 
 namespace Website.Data;
@@ -13,8 +14,17 @@ public class RedisCacheService
         _connection = connection;
     }
 
-    public void StoreData<T>(Root<T> data)
+    public async Task StoreData<T>(string key, Root<T> data)
     {
         IDatabase db = _connection.GetDatabase();
+        string json = JsonSerializer.Serialize(data);
+        await db.StringSetAsync(key, json);
+    }
+
+    public async Task<Root<T>> GetData<T>(string key)
+    {
+        IDatabase db = _connection.GetDatabase();
+        string json = await db.StringGetAsync(key);
+        return JsonSerializer.Deserialize<Root<T>>(json);
     }
 }
