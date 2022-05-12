@@ -1,63 +1,13 @@
 # DB-RedisAssignment
 
+## How to run
+Start redis and the website by running
+```
+docker compose up -d
+```
+The website can be accessed on `localhost:8080` and redis insight can be accessed on `localhost:8001`
 
-# Redis data format
+In redis insight when promted for host name of the database use `redis`
 
-Source Id is either `AverageWage` or `TotalNoninstructionalEmployees` depending on which dataset are requested
 
-## Source
-```
-source:<id>
-    measures = measure:<name>
-    annotations = annotations:<name>
-    name
-```
-
-## Annotations
-```
-annotations:<SourceName>
-    SourceName
-    SourceDescription
-    DatasetName
-    DatasetLink
-    Subtopic
-    TableId
-    Topic
-    HiddenMeasures
-```
-
-## Measure set
-```
-measures:<SourceName>
-```
-
-## Measure data for "Total Noninstructional Employees"
-```
-datum:TotalNoninstructionalEmployees:<id>
-    IDIPEDSOccupationParent
-    IPEDSOccupationParent
-    IDIPEDSOccupation
-    IPEDSOccupation
-    IDYear
-    Year
-    IDCarnegieParent
-    CarnegieParent
-    IDCarnegie
-    Carnegie
-    IDUniversity
-    University
-    TotalNoninstructionalEmployees
-    SlugUniversity
-```
-
-## Measure data for "Average Wage, Average Wage Appx MOE"
-```
-datum:AverageWage:<id>
-    IDDetailedOccupation
-    DetailedOccupation
-    IDYear
-    Year
-    AverageWage
-    AverageWageAppxMOE
-    SlugDetailedOccupation
-```
+Retention for values are 60 seconds. 
